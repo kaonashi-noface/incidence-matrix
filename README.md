@@ -19,7 +19,7 @@ This project requires the following:
 [![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)](https://www.graalvm.org/)
 [![Maven](https://img.shields.io/badge/apachemaven-C71A36.svg?style=for-the-badge&logo=apachemaven&logoColor=white)](https://maven.apache.org/)
 
-## Installation
+# Installation
 Follow the instructions below to install SDKMAN:
 ```
 https://sdkman.io/install
