@@ -3,6 +3,13 @@ Naive Incidence Matrix.
 
 TODO - add details.
 
+# High Level Design
+## 1) Problem Statement
+TODO - add details.
+
+## 2) Constraints
+TODO - add details.
+
 # Prerequisites
 This project requires the following:
 * SDKMAN
