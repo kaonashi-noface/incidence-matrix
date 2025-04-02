@@ -1,7 +1,46 @@
-# incidence-matrix
-Naive Incidence Matrix.
+<p align="center">
+    <a href="https://www.graalvm.org/">
+        <img src="https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java" />
+    </a>
+    <br />
+    <a href="https://maven.apache.org/">
+        <img src="https://img.shields.io/badge/apachemaven-C71A36.svg?style=for-the-badge&logo=apachemaven&logoColor=white" alt="Maven" />
+    </a>
+</p>
 
-TODO - add details.
+# Incidence Matrix
+This repository contains an implementation of a Boolean Incidence Matrix.
+
+## Overview
+
+> What is an Incidence Matrix?
+
+An Incidence Matrix is a two-dimensional array where each cell represents a term's occurrence within a given "Document".
+
+Typically, an incidence matrix has two axes representing:
+1) the set of all Documents
+2) the set of all Terms found across all Documents
+
+![Incidence Matrix Example](rsc/img/incidence-matrix_001.png)
+
+> Note: An Incidence Matrix only marks that a term occurred within a Document. It does not specify the number of occurrences with each document.
+
+In the above image, the `x-axis` represents the `corpus` we want to search while the `y-axis` represents the set of `terms` found across all `Documents` in the `corpus`. Each cell contains a bitwise value of `1` or `0`, respectively representing their boolean values `true` or `false`.
+
+Let's take a look at a specific `<Document, Term>` cell where `<Document="Hamlet", Term="Brutus">`. The value at cell `<Hamlet, Brutus>` is `1`. This tells us that "the term `Brutus` was found in the document `Macbeth`".
+
+If we look at the row `<Anthony, ?>`, we can see that the term `Anthony` was found in only one document - `Macbeth`; on the other hand, the term `Caesar` was found in three documents.
+
+> What is the purpose of an Incidence Matrix?
+
+TODO: talk about information retrieval, queries and the "benefits" of incidence matrices
+
+## Terminologies
+| Term | Definition |
+|------|------------|
+| corpus | TODO |
+| document | TODO |
+| term | TODO |
 
 # High Level Design
 ## 1) Problem Statement
@@ -15,9 +54,6 @@ This project requires the following:
 * SDKMAN
 * Java Runtime
 * Maven
-
-[![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)](https://www.graalvm.org/)
-[![Maven](https://img.shields.io/badge/apachemaven-C71A36.svg?style=for-the-badge&logo=apachemaven&logoColor=white)](https://maven.apache.org/)
 
 # Installation
 Follow the instructions below to install SDKMAN:
