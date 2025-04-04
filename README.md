@@ -54,7 +54,7 @@ Let's consider the following example:
 `1,000,000 words * 7,000,000 documents * 1 byte` = `7,000,000,000,000 bytes` -><br />
 `7,000,000,000,000 bytes` = `7 Terrabytes`
 
-It would take 7 Terrabytes to represent the entire Wikipedia Corpus in English. This information retrieval model does not scale over time. Consider the size of an incidence matrix containing all languages and hundred million documents - if not billions - across the entire world. It's also important to note that incidence matrices capture both the presence and absence of terms in a corpus. This is inefficient because we technically only need to know if a term is present in a Document to inform a user that a Document is relevant to their query; however, incidence matrices insist on representing rows and columns as the same size in order to take advantage of bitwise operations. Getting rid of "unused" `0`s result in a new information retrieval data structure known as a `postings list`.
+It would take 7 Terrabytes to represent the entire Wikipedia Corpus in English. This information retrieval model does not scale over time. Consider the size of an incidence matrix containing all languages and hundred million documents - if not billions - across the entire world. It's also important to note that incidence matrices capture both the presence and absence of terms in a corpus. This is inefficient because we technically only need to know if a term is present in a Document to inform a user that a Document is relevant to their query; however, incidence matrices insist on representing rows and columns as the same size in order to take advantage of bitwise operations. Getting rid of "unused" `0`s results in a new information retrieval data structure known as a `postings list`.
 
 > Why do we need to know about Incidence Matrices?
 
@@ -77,10 +77,18 @@ Understanding these flaws allow us to build upon information retrieval theory an
 
 # High Level Design
 ## 1) Problem Statement
-TODO - add details.
+The goal of this repository is to create a Boolean Incidence Matrix that is capable of:
+* evaluating `AND`, `OR`, `AND NOT`, `NOR` and `XOR` queries
+* handling a "reasonable" number of terms in a query (no large queries)
 
 ## 2) Constraints
-TODO - add details.
+This incidence matrix implementation will not:
+* force order of operations (e.g. `(` and `)`)
+* parse and tokenize input
+* be multithreaded
+
+## 3) Implementation
+TODO - add later.
 
 # Prerequisites
 This project requires the following:
