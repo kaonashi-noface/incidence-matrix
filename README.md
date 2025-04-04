@@ -24,9 +24,11 @@ An Incidence Matrix is a two-dimensional array where each cell represents a term
     </ol>
 </p>
 
-![Incidence Matrix Example](rsc/img/incidence-matrix_001.png)
+![Incidence Matrix Shakespeare Example](rsc/img/incidence-matrix_001.png)
 
-> Note: An Incidence Matrix only marks that a term occurred within a Document. It does not specify the number of occurrences with each document.
+> Note:
+> * An Incidence Matrix only marks that a term occurred within a Document. It does not specify the number of occurrences with each document.
+> * There are more than 4 words across the 4 Shakespeare documents. Only 4 terms were tracked in the incidence matrix to simply the example scenario.
 
 In the above image, the `x-axis` represents the `corpus` we want to search while the `y-axis` represents the set of `terms` found across all `Documents` in the `corpus`. Each cell contains a bitwise value of `1` or `0`, respectively representing their boolean values `true` or `false`.
 
@@ -38,12 +40,21 @@ If we look at the row `<Anthony, ?>`, we can see that the term `Anthony` was fou
 
 "Information retrieval system" is an older terminology that is synonymous with "Search Engine" (e.g. Google, Yahoo, Bing, etc.). An incidence matrix is one of the more naive ways to "retrieve information" about a collection of resources (e.g. documents, web pages, articles, etc.); specifically, it is a data structure that represents queries as mathematical bitwise operations known as [Boolean Algebra](https://en.wikipedia.org/wiki/Boolean_algebra).
 
-Expressing user queries as boolean algebra provides the benefits of boolean algebraic rules and laws. These algebraic laws allows queries to be "calculated", thus simplifying the querying logic and providing performance efficiencies. However, incidence matrices have significantly more cons related to advanced ranking functionalities, positional indexing, and - worst of all - memory inefficiency. Incidence matrices are highly impractical due to the fact that internet resources change and scale exponentially over time.
+Expressing user queries as boolean algebra provides the benefits of boolean algebraic rules and laws. These algebraic laws allows queries to be "calculated", thus simplifying the querying logic and providing performance efficiencies. However, incidence matrices have significantly more cons than pros related to a lack of advanced ranking functionalities, positional indexing, and - worst of all - memory inefficiency. Incidence matrices are highly impractical due to the fact that internet resources change and scale exponentially over time.
 
-Let's take another look at the sample Shakespeare corpus:<br />
-![Incidence Matrix Example](rsc/img/incidence-matrix_001.png)
+![Incidence Matrix Generic Example](rsc/img/incidence-matrix_002.png)
 
-TODO: add number of english words in entire dictionary, add context about the average size of a `boolean`, add estimation for total number of documents on the internet, calculate the estimated size of a naive incidence matrix.
+As mentioned above, incidence matrices are extremely impractical due to their memory inefficieny. If we look at the Sharkspeare example from above, we can see that 16 cells are required to represent the Shakespeare incidence matrix - `M terms * N documents`. Each cell contains a boolean. Although the size of a boolean depends on the nature of the programming language and the system platform, most booleans tend to be a byte. This means `the number of cells * 1 byte = the number of bytes needed to represent the incidence matrix`.
+
+Let's consider the following example:
+* The Engligh language has approximately 1,000,000 words
+* Wikipedia has approximatly 7,000,000 documents
+
+`M terms * N documents * 1 byte` = `1,000,000 words * 7,000,000 documents * 1 byte` -><br />
+`1,000,000 words * 7,000,000 documents * 1 byte` = `7,000,000,000,000 bytes` -><br />
+`7,000,000,000,000 bytes` = `7 Terrabytes`
+
+It would take 7 Terrabytes to represent the entire Wikipedia Corpus in English. This information retrieval model does not scale over time. Consider the size of an incidence matrix containing all languages and hundred million documents - if not billions - across the entire world. It's also important to note that incidence matrices capture both the presence and absence of terms in a corpus. This is inefficient because we technically only need to know if a term is present in a Document to inform a user that a Document is relevant to their query; however, incidence matrices insist on representing rows and columns as the same size in order to take advantage of bitwise operations. Getting rid of "unused" `0`s result in a new information retrieval data structure known as a `postings list`.
 
 > Why do we need to know about Incidence Matrices?
 
@@ -60,9 +71,9 @@ Understanding these flaws allow us to build upon information retrieval theory an
 ## Terminologies
 | Term | Definition |
 |------|------------|
-| corpus | TODO |
-| document | TODO |
-| term | TODO |
+| corpus | The collection of documents, articles, journals, web pages, etc. to impose a search query against. |
+| document | A body of text that encapsulates a singular item in a corpus. |
+| term | A single search "unit" (e.g. word or phrase) that a user is interested in or was found in a document. |
 
 # High Level Design
 ## 1) Problem Statement
