@@ -11,7 +11,7 @@
 # Incidence Matrix
 This repository contains an implementation of a Boolean Incidence Matrix.
 
-## Overview
+## 1) Overview
 
 > What is an Incidence Matrix?
 
@@ -68,7 +68,7 @@ It would take 7 Terrabytes to represent the entire Wikipedia Corpus in English. 
 
 Understanding these flaws allow us to build upon information retrieval theory and build more advanced, robust search engines.
 
-## Terminologies
+## 2) Terminologies
 | Term | Definition |
 |------|------------|
 | corpus | The collection of documents, articles, journals, web pages, etc. to impose a search query against. |
