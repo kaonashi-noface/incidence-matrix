@@ -1,9 +1,6 @@
 package com.search.core;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class IncidenceMatrix {
     private final byte[][] matrix;
@@ -23,31 +20,27 @@ public class IncidenceMatrix {
         if (query == null) {
             return null;
         }
-        byte[] result = new byte[this.length];
-        String lOperand = query.getTerm();
-        String rOperand = query.getTerm();
-        Operator operator = query.getOperator();
+        String firstTerm = query.getTerm();
+        byte[] initBytes = matrix[this.terms.get(firstTerm)];
+        byte[] result = Arrays.copyOf(initBytes, initBytes.length);
 
-        if(!this.terms.containsKey(lOperand) || !this.terms.containsKey(rOperand)) {
-            return null;
-        }
+        while(query.hasOperator()) {
+            String rOperand = query.getTerm();
+            Operator operator = query.getOperator();
+            int rTermId = this.terms.get(rOperand);
+            byte[] rTermDocList = matrix[rTermId];
 
-        int lTermId = this.terms.get(lOperand);
-        int rTermId = this.terms.get(rOperand);
-
-        byte[] lTermDocList = matrix[lTermId];
-        byte[] rTermDocList = matrix[rTermId];
-
-        for(int i = 0; i < this.length; ++i) {
-            byte lDocByte = lTermDocList[i];
-            byte rDocByte = rTermDocList[i];
-            result[i] = switch (operator) {
-                case AND -> (byte) (lDocByte & rDocByte);
-                case OR -> (byte) (lDocByte | rDocByte);
-                case NAND -> (byte) ~(lDocByte & rDocByte);
-                case NOR -> (byte) ~(lDocByte | rDocByte);
-                case XOR -> (byte) (lDocByte ^ rDocByte);
-            };
+            for(int i = 0; i < this.length; ++i) {
+                byte lDocByte = result[i];
+                byte rDocByte = rTermDocList[i];
+                result[i] = switch (operator) {
+                    case AND -> (byte) (lDocByte & rDocByte);
+                    case OR -> (byte) (lDocByte | rDocByte);
+                    case NAND -> (byte) ~(lDocByte & rDocByte);
+                    case NOR -> (byte) ~(lDocByte | rDocByte);
+                    case XOR -> (byte) (lDocByte ^ rDocByte);
+                };
+            }
         }
 
         return result;

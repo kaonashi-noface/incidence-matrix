@@ -11,11 +11,6 @@ public class Query {
         this.terms.add(term);
     }
 
-    public void addOperator(String strOp) {
-        Operator operator = Operator.valueOf(strOp);
-        this.operators.add(operator);
-    }
-
     public String getTerm() {
         if(this.terms.isEmpty()) {
             return null;
@@ -23,10 +18,19 @@ public class Query {
         return this.terms.removeFirst();
     }
 
+    public void addOperator(String strOp) {
+        Operator operator = Operator.valueOf(strOp);
+        this.operators.add(operator);
+    }
+
+    public boolean hasOperator() {
+        return !this.operators.isEmpty();
+    }
+
     public Operator getOperator() {
         if(this.operators.isEmpty()) {
             return null;
         }
-        return this.operators.getFirst();
+        return this.operators.removeFirst();
     }
 }

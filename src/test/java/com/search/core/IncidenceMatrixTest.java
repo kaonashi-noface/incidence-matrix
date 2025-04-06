@@ -119,6 +119,29 @@ public class IncidenceMatrixTest {
         assertEquals(expectedDocuments, actualDocuments);
     }
 
+    @Test
+    public void shouldEvaluateMultiClauseQuery() {
+        IncidenceMatrix iMatrix = this.getIMatrix();
+        Query q = new Query();
+        q.addTerm("hello"); // 11010101 00110101
+        q.addTerm("world"); // 10010011 00010111
+        q.addOperator("AND"); // 10010001 00010101
+        q.addTerm("forever"); // 11101110 11011101
+        q.addOperator("OR"); // 11111111 11011101
+        byte[] actualResult = iMatrix.evaluate(q);
+        assertEquals((byte) 0b11111111, actualResult[0]);
+        assertEquals((byte) 0b11011101, actualResult[1]);
+        // 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 15
+        List<String> expectedDocuments = Arrays.asList(
+            "document0", "document1", "document2", "document3",
+            "document4", "document5", "document6", "document7",
+            "document8", "document9", "document11", "document12",
+            "document13", "document15"
+        );
+        List<String> actualDocuments = iMatrix.getDocuments(actualResult);
+        assertEquals(expectedDocuments, actualDocuments);
+    }
+
     private static List<String> initCorpus() {
         List<String> corpus = new ArrayList<>(16);
         for(int i = 0; i< 16; ++i) {
