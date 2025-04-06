@@ -100,6 +100,25 @@ public class IncidenceMatrixTest {
         assertEquals(expectedDocuments, actualDocuments);
     }
 
+    @Test
+    public void shouldEvaluateXorQuery() {
+        IncidenceMatrix iMatrix = this.getIMatrix();
+        Query q = new Query();
+        q.addTerm("batman"); // 01010111 01101101
+        q.addTerm("forever"); // 11101110 11011101
+        q.addOperator("XOR");
+        byte[] actualResult = iMatrix.evaluate(q); // 10111001 10110000
+        assertEquals((byte) 0b10111001, actualResult[0]);
+        assertEquals((byte) 0b10110000, actualResult[1]);
+        // 0, 2, 3, 4, 7, 8, 10, 11
+        List<String> expectedDocuments = Arrays.asList(
+            "document0", "document2", "document3", "document4",
+            "document7", "document8", "document10", "document11"
+        );
+        List<String> actualDocuments = iMatrix.getDocuments(actualResult);
+        assertEquals(expectedDocuments, actualDocuments);
+    }
+
     private static List<String> initCorpus() {
         List<String> corpus = new ArrayList<>(16);
         for(int i = 0; i< 16; ++i) {
