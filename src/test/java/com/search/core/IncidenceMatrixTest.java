@@ -17,7 +17,6 @@ public class IncidenceMatrixTest {
             entry("forever", 3)
         )
     );
-
     static byte[][] iMatrix = {
         { (byte) 0b11010101, (byte) 0b00110101, },
         { (byte) 0b10010011, (byte) 0b00010111, },
@@ -59,6 +58,25 @@ public class IncidenceMatrixTest {
             "document0", "document1", "document3", "document5", "document6",
             "document7", "document9", "document10", "document11", "document12",
             "document13", "document14", "document15"
+        );
+        List<String> actualDocuments = iMatrix.getDocuments(actualResult);
+        assertEquals(expectedDocuments, actualDocuments);
+    }
+
+    @Test
+    public void shouldEvaluateNandQuery() {
+        IncidenceMatrix iMatrix = this.getIMatrix();
+        Query q = new Query();
+        q.addTerm("hello"); // 11010101 00110101
+        q.addTerm("world"); // 10010011 00010111
+        q.addOperator("NAND");
+        byte[] actualResult = iMatrix.evaluate(q); // 00101000 11001000
+        assertEquals((byte) 0b00101000, actualResult[0]);
+        assertEquals((byte) 0b11001000, actualResult[1]);
+        // 2, 4, 8, 9, 12
+        List<String> expectedDocuments = Arrays.asList(
+            "document2", "document4", "document8",
+            "document9", "document12"
         );
         List<String> actualDocuments = iMatrix.getDocuments(actualResult);
         assertEquals(expectedDocuments, actualDocuments);
