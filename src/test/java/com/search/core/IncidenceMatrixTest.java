@@ -44,6 +44,26 @@ public class IncidenceMatrixTest {
         assertEquals(expectedDocuments, actualDocuments);
     }
 
+    @Test
+    public void shouldEvaluateOrQuery() {
+        IncidenceMatrix iMatrix = this.getIMatrix();
+        Query q = new Query();
+        q.addTerm("world"); // 10010011 00010111
+        q.addTerm("batman"); // 01010111 01101101
+        q.addOperator("OR");
+        byte[] actualResult = iMatrix.evaluate(q); // 11010111 01111111
+        assertEquals((byte) 0b11010111, actualResult[0]);
+        assertEquals((byte) 0b01111111, actualResult[1]);
+        // 0, 1, 3, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15
+        List<String> expectedDocuments = Arrays.asList(
+            "document0", "document1", "document3", "document5", "document6",
+            "document7", "document9", "document10", "document11", "document12",
+            "document13", "document14", "document15"
+        );
+        List<String> actualDocuments = iMatrix.getDocuments(actualResult);
+        assertEquals(expectedDocuments, actualDocuments);
+    }
+
     private static List<String> initCorpus() {
         List<String> corpus = new ArrayList<>(16);
         for(int i = 0; i< 16; ++i) {
