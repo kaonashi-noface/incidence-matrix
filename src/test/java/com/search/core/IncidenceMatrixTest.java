@@ -70,13 +70,31 @@ public class IncidenceMatrixTest {
         q.addTerm("hello"); // 11010101 00110101
         q.addTerm("world"); // 10010011 00010111
         q.addOperator("NAND");
-        byte[] actualResult = iMatrix.evaluate(q); // 00101000 11001000
-        assertEquals((byte) 0b00101000, actualResult[0]);
-        assertEquals((byte) 0b11001000, actualResult[1]);
-        // 2, 4, 8, 9, 12
+        byte[] actualResult = iMatrix.evaluate(q); // 01101110 11101010
+        assertEquals((byte) 0b01101110, actualResult[0]);
+        assertEquals((byte) 0b11101010, actualResult[1]);
+        // 1, 2, 4, 5, 6, 8, 9, 10, 12, 14
         List<String> expectedDocuments = Arrays.asList(
-            "document2", "document4", "document8",
-            "document9", "document12"
+            "document1", "document2", "document4", "document5", "document6",
+            "document8", "document9", "document10", "document12", "document14"
+        );
+        List<String> actualDocuments = iMatrix.getDocuments(actualResult);
+        assertEquals(expectedDocuments, actualDocuments);
+    }
+
+    @Test
+    public void shouldEvaluateNorQuery() {
+        IncidenceMatrix iMatrix = this.getIMatrix();
+        Query q = new Query();
+        q.addTerm("world"); // 10010011 00010111
+        q.addTerm("batman"); // 01010111 01101101
+        q.addOperator("NOR");
+        byte[] actualResult = iMatrix.evaluate(q); // 00101000 10000000
+        assertEquals((byte) 0b00101000, actualResult[0]);
+        assertEquals((byte) 0b10000000, actualResult[1]);
+        // 2, 4, 8
+        List<String> expectedDocuments = Arrays.asList(
+            "document2", "document4", "document8"
         );
         List<String> actualDocuments = iMatrix.getDocuments(actualResult);
         assertEquals(expectedDocuments, actualDocuments);

@@ -44,7 +44,7 @@ public class IncidenceMatrix {
             result[i] = switch (operator) {
                 case AND -> (byte) (lDocByte & rDocByte);
                 case OR -> (byte) (lDocByte | rDocByte);
-                case NAND -> (byte) (~lDocByte & ~rDocByte);
+                case NAND -> (byte) ~(lDocByte & rDocByte);
                 case NOR -> (byte) ~(lDocByte | rDocByte);
                 case XOR -> (byte) (lDocByte ^ rDocByte);
             };
