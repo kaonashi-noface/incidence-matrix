@@ -1,10 +1,10 @@
-<p align="center">
-    <a href="https://nodejs.org/en">
-        <img src="https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white" alt="NodeJS" />
+<p align='center'>
+    <a href='https://nodejs.org/en'>
+        <img src='https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white' alt='NodeJS' />
     </a>
     <br />
-    <a href="https://www.npmjs.com/">
-        <img src="https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white" alt="NPM" />
+    <a href='https://www.npmjs.com/'>
+        <img src='https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white' alt='NPM' />
     </a>
 </p>
 
@@ -103,8 +103,8 @@ As code we could express this as:
 // Assume M, N and iMatrix[M][N] are defined
 const matrix = Array.from({ length: M }, () => Array(N).fill(0));
 
-const term1Idx = getTermIndex("t1");
-const term2Idx = getTermIndex("t2");
+const term1Idx = getTermIndex('t1');
+const term2Idx = getTermIndex('t2');
 
 const docList1 = iMatrix[term1Idx];
 const docList2 = iMatrix[term2Idx];

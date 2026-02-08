@@ -2,11 +2,12 @@
     "compilerOptions": {
         "target": "ES2020",
         "module": "commonjs",
+        "moduleResolution": "node",
         "lib": [
             "ES2020"
         ],
         "outDir": "./dist",
-        "rootDir": "./src",
+        "rootDir": "./",
         "strict": true,
         "esModuleInterop": true,
         "skipLibCheck": true,
@@ -20,19 +21,22 @@
         "strictFunctionTypes": true,
         "noImplicitReturns": true,
         "noFallthroughCasesInSwitch": true,
-        "moduleResolution": "node",
         "allowSyntheticDefaultImports": true,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
-        "resolveJsonModule": true
+        "resolveJsonModule": true,
+        "baseUrl": "./",
+        "paths": {
+            "@data/*": ["data/*"],
+            "@src/*": ["src/*"]
+        }
     },
     "include": [
-        "src/**/*"
+        "src/**/*",
+        "tests/**/*",
     ],
     "exclude": [
         "node_modules",
         "dist",
-        "**/*.test.ts",
-        "**/*.spec.ts"
     ]
 }
