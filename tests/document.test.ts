@@ -11,11 +11,19 @@ describe('Document TestSuite', () => {
         expect(hasTerm).toBe(true);
     });
 
-    it.skip('should successfully add a new term to overflow term list', () => {
+    it('should successfully add a new term to current term byte list', () => {
         const doc: Document = new Document();
-        doc.addTerm(32, true);
+        doc.addTerm(2, true);
 
-        const hasTerm = doc.hasTerm(0);
+        const hasTerm = doc.hasTerm(2);
+        expect(hasTerm).toBe(true);
+    });
+
+    it('should successfully add a new term to overflow term byte list', () => {
+        const doc: Document = new Document();
+        doc.addTerm(8, true);
+
+        const hasTerm = doc.hasTerm(8);
         expect(hasTerm).toBe(true);
     });
     

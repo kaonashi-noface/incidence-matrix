@@ -6,7 +6,22 @@ export default class Document {
     }
 
     addTerm(termIdx: number, hasTerm: boolean) {
-        // TODO: add logic later...
+        const byteIdx: number = getByteIndex(termIdx);
+        if(!hasTerm && byteIdx < this.terms.length) {
+            return; // We don't need to do anything
+        }
+
+        // within bounds
+        if (byteIdx < this.terms.length) {
+            // Do nothing, bit should already be set to 0
+            if(!hasTerm) {
+                return;
+            }
+            this.setTerm(termIdx);
+        }
+
+        const nextTermByte = hasTerm ? new Uint8Array([128]) : new Uint8Array(1);
+        this.terms = Buffer.concat([this.terms, nextTermByte]);
     }
 
     setTerm(termIdx: number) {
