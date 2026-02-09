@@ -9,8 +9,12 @@ export default class IncidenceMatrix {
         this.documentMap = new Map<string, Document>();
     }
 
-    addDocument(documentName: string) {
-        this.documentMap.set(documentName, new Document());
+    getDocument(documentName: string) : Document | undefined {
+        return this.documentMap.get(documentName);
+    }
+
+    getTermIndex(term: string) : number | undefined {
+        return this.termIdMap.get(term);
     }
 
     addTerm(documentName: string, term: string) {
@@ -20,10 +24,13 @@ export default class IncidenceMatrix {
         }
         const termIdx: number = this.termIdMap.get(term)!;
 
-        // TODO: handle new Document edge case
+
+        const haveProcessedDocument: boolean = this.documentMap.has(documentName);
+        if (!haveProcessedDocument) {
+            this.documentMap.set(documentName, new Document());
+        }
         const doc: Document = this.documentMap.get(documentName)!;
         doc.addTerm(termIdx, true);
-
     }
 
     and(termOne: string, termTwo: string) {
