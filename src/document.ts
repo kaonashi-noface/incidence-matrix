@@ -1,26 +1,11 @@
 export default class Document {
-    private terms: Uint8Array;
+    terms: Uint8Array;
     
-    constructor() {
-        this.terms = new Uint8Array(1);
-    }
-
-    addTerm(termIdx: number, hasTerm: boolean) {
-        const byteIdx: number = getByteIndex(termIdx);
-        if(!hasTerm && byteIdx < this.terms.length) {
-            return; // We don't need to do anything
-        }
-
-        // within bounds
-        if (byteIdx < this.terms.length) {
-            if(hasTerm) {
-                this.setTerm(termIdx);
-            }
-            return;
-        }
-
-        const nextTermByte = hasTerm ? new Uint8Array([128]) : new Uint8Array(1);
-        this.terms = Buffer.concat([this.terms, nextTermByte]);
+    constructor(numTerms: number) {
+        // The number of 8 bit chunks required in the Uint8Array 
+        // to represent total number of terms:
+        const numUInt8Bytes: number = Math.ceil(numTerms / 8);
+        this.terms = new Uint8Array(numUInt8Bytes);
     }
 
     setTerm(termIdx: number) {

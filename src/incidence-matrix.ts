@@ -1,36 +1,43 @@
 import Document from "./document";
 
 export default class IncidenceMatrix {
-    private termIdMap: Map<string, number>;
-    private documentMap: Map<string, Document>;
+    corpus: Map<string, string[]>;
+    termIdMap: Map<string, number>;
+    documentMap: Map<string, Document>;
 
     constructor() {
+        this.corpus = new Map<string, string[]>();
         this.termIdMap = new Map<string, number>();
         this.documentMap = new Map<string, Document>();
     }
 
-    getDocument(documentName: string) : Document | undefined {
-        return this.documentMap.get(documentName);
+    buildDocumentTermMap() {
+        for (const [, terms] of this.corpus.entries()) {
+            for (const term of terms) {
+                if (!this.termIdMap.has(term)) {
+                    this.termIdMap.set(term, this.termIdMap.size);
+                }
+            }
+        }
+
+        // scan all words across all documents again (yes, redundant) 
+        // and mark the document map:
+        for (const [docName, terms] of this.corpus.entries()) {
+            const doc: Document = new Document(this.termIdMap.size);
+            this.documentMap.set(docName, doc);
+            for (const term of terms) {
+                /**
+                 * Get the term index
+                 * Set the term for the current Document
+                 */
+                const termIdx: number = this.termIdMap.get(term)!;
+                doc.setTerm(termIdx);
+            }
+        }
     }
 
-    getTermIndex(term: string) : number | undefined {
-        return this.termIdMap.get(term);
-    }
-
-    addTerm(documentName: string, term: string) {
-        const haveProcessedTerm: boolean = this.termIdMap.has(term);
-        if (!haveProcessedTerm) {
-            this.termIdMap.set(term, this.termIdMap.size);
-        }
-        const termIdx: number = this.termIdMap.get(term)!;
-
-
-        const haveProcessedDocument: boolean = this.documentMap.has(documentName);
-        if (!haveProcessedDocument) {
-            this.documentMap.set(documentName, new Document());
-        }
-        const doc: Document = this.documentMap.get(documentName)!;
-        doc.addTerm(termIdx, true);
+    addDocumentToCorpus(documentName: string, terms: string[]) {
+        this.corpus.set(documentName, terms);
     }
 
     and(termOne: string, termTwo: string) {

@@ -4,31 +4,32 @@ import Document from "@src/document";
 describe('Incidence Matrix TestSuite', () => {
 
     it('should successfully add new term to single Document', () => {
-        const docName: string = "doc";
-        const term: string = "hello";
-        const matrix: IncidenceMatrix = new IncidenceMatrix();
-        matrix.addTerm(docName, term);
-
-        const doc: Document = matrix.getDocument(docName)!;
-        const termIdx: number | undefined = matrix.getTermIndex(term);
-        expect(termIdx).toBeDefined();
-
-        const hasTerm: boolean = doc.hasTerm(termIdx!);
-        expect(hasTerm).toBe(true);
-    });
-
-    it('should successfully successfully parse two Documents', () => {
+        const docName1: string = "doc1";
+        const docName2: string = "doc2";
         const corpus = [
             {
-                docName: "doc1",
-                terms: "the mysterious air pirate whose robberies were ruining transcontinental airways".split(/\s+/g)
+                docName: docName1,
+                terms: "word1 word2 word3 word4 word5 word6 word7 word8".split(/\s+/g)
             },
             {
-                docName: "doc2",
-                terms: "the pirate wade was a brilliant but neurotic chemist who had discovered among other things the secret of invisibility".split(/\s+/g)
+                docName: docName2,
+                terms: "abcd word2 efgh word4 ijkl mnop".split(/\s+/g)
             }
         ];
-        // TODO: finish unit test here...
+        const matrix = new IncidenceMatrix();
+        corpus.forEach(({docName, terms}) => matrix.addDocumentToCorpus(docName, terms));
+        matrix.buildDocumentTermMap();
+
+        // 1111 1111 0000 0000 =    255 0
+        const actualDoc1 = matrix.documentMap.get(docName1);
+        expect(actualDoc1).toBeDefined()
+        expect(actualDoc1?.terms[0]).toBe(0b11111111);
+        expect(actualDoc1?.terms[1]).toBe(0b00000000);
+        // 0101 0000 1111 0000 =    80  240
+        const actualDoc2 = matrix.documentMap.get(docName2);
+        expect(actualDoc2).toBeDefined()
+        expect(actualDoc2?.terms[0]).toBe(0b01010000);
+        expect(actualDoc2?.terms[1]).toBe(0b11110000);
     });
 
 });
