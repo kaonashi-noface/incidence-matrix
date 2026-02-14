@@ -1,7 +1,7 @@
 import IncidenceMatrix from "@src/incidence-matrix";
-import Document from "@src/document";
+import { Query } from "@src/query";
 
-describe('Incidence Matrix TestSuite', () => {
+describe('Incidence Matrix TestSuite - Corpus Building', () => {
 
     it('should successfully add new term to single Document', () => {
         const docName1: string = "doc1";
@@ -30,6 +30,40 @@ describe('Incidence Matrix TestSuite', () => {
         expect(actualDoc2).toBeDefined()
         expect(actualDoc2?.terms[0]).toBe(0b01010000);
         expect(actualDoc2?.terms[1]).toBe(0b11110000);
+    });
+
+});
+
+describe('Incidence Matrix TestSuite - Querying', () => {
+
+    it('should fail to query for a missing term', () => {
+        const matrix = new IncidenceMatrix();
+        matrix.addDocumentToCorpus("document", [ "term" ])
+        matrix.buildDocumentTermMap();
+        
+        const expectedTerm = "invalid";
+        const query: Query = new Query(expectedTerm);
+        const actualResults: Uint8Array = matrix.search(query);
+    });
+
+    it('should successfully query for a single term', () => {
+        // 
+    });
+
+    it('should successfully perform an AND query', () => {
+        // 
+    });
+
+    it('should successfully perform an OR query', () => {
+        // 
+    });
+
+    it('should successfully perform an NOT query', () => {
+        // 
+    });
+
+    it('should successfully perform complex chained query', () => {
+        // 
     });
 
 });

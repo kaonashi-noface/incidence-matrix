@@ -1,4 +1,5 @@
 import Document from "./document";
+import { Query } from "./query";
 
 export default class IncidenceMatrix {
     corpus: Map<string, string[]>;
@@ -20,16 +21,13 @@ export default class IncidenceMatrix {
             }
         }
 
-        // scan all words across all documents again (yes, redundant) 
-        // and mark the document map:
+        // scan all words across all documents again and mark the 
+        // document map (yes, i know it's redundant, I want to get
+        // to more complex concepts):
         for (const [docName, terms] of this.corpus.entries()) {
             const doc: Document = new Document(this.termIdMap.size);
             this.documentMap.set(docName, doc);
             for (const term of terms) {
-                /**
-                 * Get the term index
-                 * Set the term for the current Document
-                 */
                 const termIdx: number = this.termIdMap.get(term)!;
                 doc.setTerm(termIdx);
             }
@@ -40,11 +38,8 @@ export default class IncidenceMatrix {
         this.corpus.set(documentName, terms);
     }
 
-    and(termOne: string, termTwo: string) {
-        // 
-    }
-
-    or(termOne: string, termTwo: string) {
-        // 
+    search(query: Query) : Uint8Array {
+        // TODO: implement later
+        return new Uint8Array();
     }
 }
