@@ -1,7 +1,7 @@
 enum EOperators {
     AND,
     OR,
-    NOT,
+    AND_NOT,
 };
 
 export class Query {
@@ -26,9 +26,9 @@ export class Query {
         return this;
     }
 
-    not(term: string) : this{
+    andNot(term: string) : this {
         this.terms.push(term);
-        this.operator.push(EOperators.NOT);
+        this.operator.push(EOperators.AND_NOT);
         return this;
     }
 

@@ -41,13 +41,21 @@ describe('Incidence Matrix TestSuite - Querying', () => {
         matrix.addDocumentToCorpus("document", [ "term" ])
         matrix.buildDocumentTermMap();
         
-        const expectedTerm = "invalid";
-        const query: Query = new Query(expectedTerm);
-        const actualResults: Uint8Array = matrix.search(query);
+        const query: Query = new Query("invalid");
+        const actualResults: string[] = matrix.search(query);
+        expect(actualResults.length).toBe(0);
     });
 
     it('should successfully query for a single term', () => {
-        // 
+        const expectedDocument = "document";
+        const matrix = new IncidenceMatrix();
+        matrix.addDocumentToCorpus(expectedDocument, [ "term" ])
+        matrix.buildDocumentTermMap();
+        
+        const query: Query = new Query("term");
+        const actualResults: string[] = matrix.search(query);
+        expect(actualResults.length).toBe(1);
+        expect(actualResults[0]).toBe(expectedDocument);
     });
 
     it('should successfully perform an AND query', () => {
@@ -58,7 +66,7 @@ describe('Incidence Matrix TestSuite - Querying', () => {
         // 
     });
 
-    it('should successfully perform an NOT query', () => {
+    it('should successfully perform an AND NOT query', () => {
         // 
     });
 

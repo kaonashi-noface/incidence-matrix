@@ -38,8 +38,29 @@ export default class IncidenceMatrix {
         this.corpus.set(documentName, terms);
     }
 
-    search(query: Query) : Uint8Array {
-        // TODO: implement later
-        return new Uint8Array();
+    /**
+     * Because there is order of operation defined in this problem 
+     * set/ scenario, we can just process the query and operators 
+     * from left to right (e.g. no Reverse Polish Notation).
+     * 
+     * @param query 
+     * @returns 
+     */
+    search(query: Query) : string[] {
+        if(query.terms.length === 0) {
+            return [];
+        }
+        const matchedDocs: string[] = [];
+        if(query.operator.length === 0) {
+            const term = query.terms.shift();
+            const termIdx = this.termIdMap.get(term!)!;
+            for (const [docName, doc] of this.documentMap.entries()) {
+                const hasTerm: boolean = doc.hasTerm(termIdx);
+                if (hasTerm) {
+                    matchedDocs.push(docName);
+                }
+            }
+        }
+        return matchedDocs;
     }
 }
