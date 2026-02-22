@@ -60,7 +60,7 @@ describe('Incidence Matrix TestSuite - Querying', () => {
         expect(actualResults[0]).toBe(expectedDocument);
     });
 
-    it.only('should successfully perform an AND query', () => {
+    it('should successfully perform an AND query', () => {
         const matrix = new IncidenceMatrix();
         matrix.addDocumentToCorpus("document1", [ "hello", "my", "name", "is", "inigo", "montoya" ]);
         matrix.addDocumentToCorpus("document2", [ "im", "batman" ]);

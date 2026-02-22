@@ -66,7 +66,21 @@ export default class IncidenceMatrix {
             const operator: EOperators = query.operator.shift()!;
             const t1: string = query.terms.shift()!;
             const t2: string = query.terms.shift()!;
-            const msg = "";
+
+            const term1Idx: number = this.termIdMap.get(t1)!;
+            const term2Idx: number = this.termIdMap.get(t2)!;
+
+            for (const [docName, document] of this.documentMap.entries()) {
+                const hasTerm1: boolean = document.hasTerm(term1Idx);
+                const hasTerm2: boolean = document.hasTerm(term2Idx);
+
+                if (operator === EOperators.AND && (hasTerm1 && hasTerm2)) {
+                    matchedDocs.push(docName);
+                }
+                else {
+                    // TODO: add other operator conditions...
+                }
+            }
         }
         return matchedDocs;
     }
