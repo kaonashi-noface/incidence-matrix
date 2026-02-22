@@ -7,7 +7,6 @@ module.exports = {
         '^.+\\.ts$': 'ts-jest',
     },
     moduleNameMapper: {
-        '^@data/(.*)$': '<rootDir>/data/$1',
         '^@src/(.*)$': '<rootDir>/src/$1',
     },
     setupFilesAfterEnv: ['tsconfig-paths/register'],
