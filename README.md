@@ -78,7 +78,7 @@ Understanding these flaws allow us to build upon information retrieval theory an
 # High Level Design
 ## 1) Problem Statement
 The goal of this repository is to create a Boolean Incidence Matrix that is capable of:
-* evaluating `AND`, `OR`, `AND NOT`, `NOR` and `XOR` queries
+* evaluating `AND`, `OR`, `AND NOT` queries
 * handling a "reasonable" number of terms in a query (no large queries)
 
 ## 2) Constraints

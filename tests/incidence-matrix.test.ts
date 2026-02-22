@@ -93,11 +93,19 @@ describe('Incidence Matrix TestSuite - Querying', () => {
     });
 
     it('should successfully perform an AND NOT query', () => {
-        // 
-    });
-
-    it('should successfully perform complex chained query', () => {
-        // 
+        const matrix = new IncidenceMatrix();
+        matrix.addDocumentToCorpus("document1", "houston we have a problem".split(/\s+/));
+        matrix.addDocumentToCorpus("document2", "the only thing we have to fear is fear itself".split(/\s+/));
+        matrix.addDocumentToCorpus("document3", "i think therefore i am".split(/\s+/));
+        matrix.buildDocumentTermMap();
+        
+        const query: Query = new Query("we")
+            .andNot("therefore");
+        
+        const actualResults: string[] = matrix.search(query);
+        expect(actualResults.length).toBe(2);
+        expect(actualResults).toContain("document1");
+        expect(actualResults).toContain("document2");
     });
 
 });
