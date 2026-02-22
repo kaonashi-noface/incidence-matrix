@@ -22,12 +22,12 @@ describe('Incidence Matrix TestSuite - Corpus Building', () => {
 
         // 1111 1111 0000 0000 =    255 0
         const actualDoc1 = matrix.documentMap.get(docName1);
-        expect(actualDoc1).toBeDefined()
+        expect(actualDoc1).toBeDefined();
         expect(actualDoc1?.terms[0]).toBe(0b11111111);
         expect(actualDoc1?.terms[1]).toBe(0b00000000);
         // 0101 0000 1111 0000 =    80  240
         const actualDoc2 = matrix.documentMap.get(docName2);
-        expect(actualDoc2).toBeDefined()
+        expect(actualDoc2).toBeDefined();
         expect(actualDoc2?.terms[0]).toBe(0b01010000);
         expect(actualDoc2?.terms[1]).toBe(0b11110000);
     });
@@ -38,10 +38,11 @@ describe('Incidence Matrix TestSuite - Querying', () => {
 
     it('should fail to query for a missing term', () => {
         const matrix = new IncidenceMatrix();
-        matrix.addDocumentToCorpus("document", [ "term" ])
+        matrix.addDocumentToCorpus("document", [ "term" ]);
         matrix.buildDocumentTermMap();
         
         const query: Query = new Query("invalid");
+
         const actualResults: string[] = matrix.search(query);
         expect(actualResults.length).toBe(0);
     });
@@ -49,17 +50,31 @@ describe('Incidence Matrix TestSuite - Querying', () => {
     it('should successfully query for a single term', () => {
         const expectedDocument = "document";
         const matrix = new IncidenceMatrix();
-        matrix.addDocumentToCorpus(expectedDocument, [ "term" ])
+        matrix.addDocumentToCorpus(expectedDocument, [ "term" ]);
         matrix.buildDocumentTermMap();
         
         const query: Query = new Query("term");
+        
         const actualResults: string[] = matrix.search(query);
         expect(actualResults.length).toBe(1);
         expect(actualResults[0]).toBe(expectedDocument);
     });
 
-    it('should successfully perform an AND query', () => {
-        // 
+    it.only('should successfully perform an AND query', () => {
+        const matrix = new IncidenceMatrix();
+        matrix.addDocumentToCorpus("document1", [ "hello", "my", "name", "is", "inigo", "montoya" ]);
+        matrix.addDocumentToCorpus("document2", [ "im", "batman" ]);
+        matrix.addDocumentToCorpus("document3", [ "my", "name", "is", "jeff" ]);
+        
+        matrix.buildDocumentTermMap();
+        
+        const query: Query = new Query("name")
+            .and("is");
+        
+        const actualResults: string[] = matrix.search(query);
+        expect(actualResults.length).toBe(2);
+        expect(actualResults).toContain("document1");
+        expect(actualResults).toContain("document3");
     });
 
     it('should successfully perform an OR query', () => {

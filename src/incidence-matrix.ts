@@ -1,5 +1,5 @@
 import Document from "./document";
-import { Query } from "./query";
+import { EOperators, Query } from "./query";
 
 export default class IncidenceMatrix {
     corpus: Map<string, string[]>;
@@ -60,6 +60,13 @@ export default class IncidenceMatrix {
                     matchedDocs.push(docName);
                 }
             }
+        }
+        
+        while (query.operator.length > 0) {
+            const operator: EOperators = query.operator.shift()!;
+            const t1: string = query.terms.shift()!;
+            const t2: string = query.terms.shift()!;
+            const msg = "";
         }
         return matchedDocs;
     }

@@ -1,4 +1,4 @@
-enum EOperators {
+export enum EOperators {
     AND,
     OR,
     AND_NOT,
