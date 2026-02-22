@@ -77,6 +77,9 @@ export default class IncidenceMatrix {
                 if (operator === EOperators.AND && (hasTerm1 && hasTerm2)) {
                     matchedDocs.push(docName);
                 }
+                if (operator === EOperators.OR && (hasTerm1 || hasTerm2)) {
+                    matchedDocs.push(docName);
+                }
                 else {
                     // TODO: add other operator conditions...
                 }

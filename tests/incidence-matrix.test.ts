@@ -62,10 +62,9 @@ describe('Incidence Matrix TestSuite - Querying', () => {
 
     it('should successfully perform an AND query', () => {
         const matrix = new IncidenceMatrix();
-        matrix.addDocumentToCorpus("document1", [ "hello", "my", "name", "is", "inigo", "montoya" ]);
-        matrix.addDocumentToCorpus("document2", [ "im", "batman" ]);
-        matrix.addDocumentToCorpus("document3", [ "my", "name", "is", "jeff" ]);
-        
+        matrix.addDocumentToCorpus("document1", "hello my name is inigo montoya".split(/\s+/));
+        matrix.addDocumentToCorpus("document2", "im batman".split(/\s+/));
+        matrix.addDocumentToCorpus("document3", "my name is jeff".split(/\s+/));
         matrix.buildDocumentTermMap();
         
         const query: Query = new Query("name")
@@ -78,7 +77,19 @@ describe('Incidence Matrix TestSuite - Querying', () => {
     });
 
     it('should successfully perform an OR query', () => {
-        // 
+        const matrix = new IncidenceMatrix();
+        matrix.addDocumentToCorpus("document1", "a quick brown fox jumps over the lazy dog".split(/\s+/));
+        matrix.addDocumentToCorpus("document2", "the five boxing wizards jump quickly".split(/\s+/));
+        matrix.addDocumentToCorpus("document3", "pack my box with five dozen liquor jugs".split(/\s+/));
+        matrix.buildDocumentTermMap();
+        
+        const query: Query = new Query("wizards")
+            .or("liquor");
+        
+        const actualResults: string[] = matrix.search(query);
+        expect(actualResults.length).toBe(2);
+        expect(actualResults).toContain("document2");
+        expect(actualResults).toContain("document3");
     });
 
     it('should successfully perform an AND NOT query', () => {
