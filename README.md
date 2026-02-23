@@ -134,9 +134,11 @@ This project requires the following:
 * NPM
 
 # Installation
-Follow the instructions below to install NVM:
-```
-https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating
+Follow the instructions [here](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating) to install NVM.
+
+Install the latest version specified in the `.npmrc` file:
+```bash
+nvm install --lts=Krypton
 ```
 
 Run the following command to install the exact NodeJS version:
@@ -147,7 +149,7 @@ nvm use
 # Build
 Run the following command to clean install dependencies:
 ```shell
-npm i
+npm ci
 ```
 
 Run the following command to run unit tests via terminal:
